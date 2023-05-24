@@ -34,12 +34,12 @@ namespace ToDo
         /// <returns>Returns option indicated by user</returns>
         public static int ShowMainMenu()
         {
-            Console.WriteLine("----------------------------------------");
-            Console.WriteLine("Ingrese la opción a realizar: ");
-            Console.WriteLine("1. Nueva tarea");
-            Console.WriteLine("2. Remover tarea");
-            Console.WriteLine("3. Tareas pendientes");
-            Console.WriteLine("4. Salir");
+            Console.WriteLine("---------------------------------------- \n" +
+                "Ingrese la opción a realizar: \n" +
+                "1. Nueva tarea\n" +
+                "2. Remover tarea\n" +
+                "3. Tareas pendiente\n" +
+                "4. Salir");
 
             // Read line
             string menuOptionSelected = Console.ReadLine();
@@ -52,27 +52,28 @@ namespace ToDo
             {
                 Console.WriteLine("Ingrese el número de la tarea a remover: ");
                 // Show current taks
-                for (int i = 0; i < TaskList.Count; i++)
-                {
-                    Console.WriteLine((i + 1) + ". " + TaskList[i]);
-                }
-                Console.WriteLine("----------------------------------------");
+                ShowTaskList();
 
                 string taskToKill = Console.ReadLine();
                 // Remove one position
                 int indexToRemove = Convert.ToInt32(taskToKill) - 1;
-                if (indexToRemove > -1)
+                if (indexToRemove < 0 || indexToRemove > (TaskList.Count - 1))
                 {
-                    if (TaskList.Count > 0)
+                    Console.WriteLine("La tarea no existe");
+                } else
+                {
+                    if (indexToRemove > -1 && TaskList.Count > 0)
                     {
                         string task = TaskList[indexToRemove];
                         TaskList.RemoveAt(indexToRemove);
                         Console.WriteLine("Tarea " + task + " eliminada");
+
                     }
                 }
             }
             catch (Exception)
             {
+                Console.WriteLine("No se pudo completar la acción");
             }
         }
 
@@ -87,6 +88,7 @@ namespace ToDo
             }
             catch (Exception)
             {
+                Console.WriteLine("Se ha producido un error al crear la nueva tarea");
             }
         }
 
@@ -99,10 +101,8 @@ namespace ToDo
             else
             {
                 Console.WriteLine("----------------------------------------");
-                for (int i = 0; i < TaskList.Count; i++)
-                {
-                    Console.WriteLine((i + 1) + ". " + TaskList[i]);
-                }
+                int indexTask = 1;
+                TaskList.ForEach(p => Console.WriteLine((indexTask++) + ". " + p));
                 Console.WriteLine("----------------------------------------");
             }
         }
